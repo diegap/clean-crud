@@ -1,4 +1,6 @@
 rootProject.name = 'clean-crud'
 
 include 'domain'
-include 'infrastructure'
+include 'infrastructure:configuration'
+include 'infrastructure:entrypoint'
+include 'infrastructure:dataprovider'

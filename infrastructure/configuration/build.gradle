@@ -47,8 +47,6 @@ compileTestKotlin {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile project(':domain')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile project(':infrastructure:entrypoint')
+    compile project(':infrastructure:dataprovider')
 }
