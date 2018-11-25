@@ -1,8 +1,7 @@
 buildscript {
 
     ext {
-        kotlinVersion = '1.2.70'
-        springBootVersion = '2.1.0.RELEASE'
+        kotlinVersion = '1.3.10'
     }
     repositories {
         mavenCentral()
@@ -27,14 +26,52 @@ sourceCompatibility = 1.8
 
 repositories { mavenCentral() }
 
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+
+
+test {
+
+    // make gradle print the test result for each test in the build (we like to see the acceptance tests running)
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    doFirst {
+        println "==========================================================================================="
+        println "   tests starting"
+        println "==========================================================================================="
+    }
+
+
+    doLast {
+        println "==========================================================================================="
+        println "   tests finishing"
+        println "==========================================================================================="
+    }
+}
+
 dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.2'
     compile 'org.slf4j:slf4j-simple:1.7.2'
     compile 'io.github.microutils:kotlin-logging:1.6.20'
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+
+    testCompile "io.mockk:mockk:1.7.7"
+    testCompile "junit:junit:4.+"
+    testCompile "org.assertj:assertj-core:3.6.1"
 }
 

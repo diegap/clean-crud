@@ -63,11 +63,13 @@ class DeleteBookUseCase(private val bookService: BookService) {
         private val logger = KotlinLogging.logger {}
     }
 
-    fun execute(id: String) {
+    fun execute(id: String): String {
 
         logger.debug("Deleting book with id: $id")
 
         bookService.delete(id)
+
+        return "OK"
 
     }
 }
