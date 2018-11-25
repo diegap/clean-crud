@@ -1,5 +1,6 @@
 .gradle
 /build/
+/classes/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -9,18 +10,24 @@
 .project
 .settings
 .springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-/out/
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbproject/private/
+build/
+out/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### OSX ###
+.DS_Store
+
+### Generated sources ###
+generated-sources/

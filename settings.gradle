@@ -1,1 +1,4 @@
-rootProject.name = 'crud'
+rootProject.name = 'clean-crud'
+
+include 'domain'
+include 'infrastructure'
