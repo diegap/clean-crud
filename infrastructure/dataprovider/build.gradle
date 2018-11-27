@@ -47,5 +47,6 @@ compileTestKotlin {
 dependencies {
     compile project(':domain')
     compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${springBootVersion}"
-    testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
+    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
 }

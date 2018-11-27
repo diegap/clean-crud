@@ -15,7 +15,7 @@ class BookServiceDataProvider(private val bookRepository: BookRepository) : Book
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun read(id: String): Mono<Book>? {
+    override fun findById(id: String): Mono<Book>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

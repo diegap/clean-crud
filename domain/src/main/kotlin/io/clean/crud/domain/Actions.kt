@@ -6,9 +6,9 @@ import reactor.core.publisher.Mono
 
 interface BookService {
     fun create(book: Book): Mono<Book>
-    fun read(id: String): Mono<Book>?
     fun update(book: Book): Mono<Book>
     fun delete(id: String)
+    fun findById(id: String): Mono<Book>?
     fun findByTitle(title: String): Flux<Book>
     fun findByAuthot(author: Author): Flux<Book>
 }
@@ -39,7 +39,7 @@ class ReadBookUseCase(private val bookService: BookService) {
 
         logger.debug("Fetching book with id: $id")
 
-        return bookService.read(id).also { logger.debug("Returning book: $it") }
+        return bookService.findById(id).also { logger.debug("Returning book: $it") }
 
     }
 

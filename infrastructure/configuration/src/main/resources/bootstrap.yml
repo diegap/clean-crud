@@ -1,0 +1,11 @@
+spring:
+  config:
+    name: clean-crud
+  application:
+    name: clean-crud
+
+
+
+  output:
+    ansi:
+      enabled: always

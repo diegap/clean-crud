@@ -58,7 +58,7 @@ class `Use cases related to Book entity` {
                 title = "The Sentinel",
                 year = 1948)
 
-        every { bookService.read("1") } returns Mono.just(existingBook)
+        every { bookService.findById("1") } returns Mono.just(existingBook)
 
         val useCase = ReadBookUseCase(bookService)
 
@@ -83,7 +83,7 @@ class `Use cases related to Book entity` {
         // given
         val nonExistingBook = null
 
-        every { bookService.read("2") } returns nonExistingBook
+        every { bookService.findById("2") } returns nonExistingBook
 
         val useCase = ReadBookUseCase(bookService)
 
