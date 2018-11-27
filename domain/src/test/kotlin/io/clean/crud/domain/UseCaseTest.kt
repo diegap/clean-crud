@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import reactor.core.publisher.Mono
 
 class `Use cases related to Book entity` {
 
@@ -27,12 +28,12 @@ class `Use cases related to Book entity` {
                 title = "The Sentinel",
                 year = 1948)
 
-        every { bookService.create(aNewBook) } returns aNewBook.copy(id = "1")
+        every { bookService.create(aNewBook) } returns Mono.just(aNewBook.copy(id = "1"))
 
         val useCase = CreateBookUseCase(bookService)
 
         // when
-        val result = useCase.execute(aNewBook)
+        val result = useCase.execute(aNewBook).block()!!
 
         // then
         assertThat(result).isNotNull()
@@ -57,12 +58,12 @@ class `Use cases related to Book entity` {
                 title = "The Sentinel",
                 year = 1948)
 
-        every { bookService.read("1") } returns existingBook
+        every { bookService.read("1") } returns Mono.just(existingBook)
 
         val useCase = ReadBookUseCase(bookService)
 
         // when
-        val result = useCase.execute("1")
+        val result = useCase.execute("1")?.block()
 
         // then
         assertThat(result).isNotNull()
@@ -105,12 +106,12 @@ class `Use cases related to Book entity` {
                 title = "The Sentinell",
                 year = 1947)
 
-        every { bookService.update(bookToUpdate) } returns bookToUpdate
+        every { bookService.update(bookToUpdate) } returns Mono.just(bookToUpdate)
 
         val useCase = UpdateBookUseCase(bookService)
 
         // when
-        val result = useCase.execute(bookToUpdate)
+        val result = useCase.execute(bookToUpdate).block()!!
 
         // then
         assertThat(result).isNotNull()

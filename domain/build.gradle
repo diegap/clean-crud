@@ -68,6 +68,8 @@ dependencies {
     compile 'org.slf4j:slf4j-simple:1.7.2'
     compile 'io.github.microutils:kotlin-logging:1.6.20'
 
+    compile 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+
     implementation "org.jetbrains.kotlin:kotlin-reflect"
 
     testCompile "io.mockk:mockk:1.7.7"

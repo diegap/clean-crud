@@ -21,7 +21,6 @@ apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'dataprovider'
@@ -47,4 +46,6 @@ compileTestKotlin {
 
 dependencies {
     compile project(':domain')
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${springBootVersion}"
+    testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }

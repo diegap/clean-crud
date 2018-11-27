@@ -1,12 +1,16 @@
 package io.clean.crud.domain
 
 import mu.KotlinLogging
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 interface BookService {
-    fun create(book: Book): Book
-    fun read(id: String): Book?
-    fun update(book: Book): Book
+    fun create(book: Book): Mono<Book>
+    fun read(id: String): Mono<Book>?
+    fun update(book: Book): Mono<Book>
     fun delete(id: String)
+    fun findByTitle(title: String): Flux<Book>
+    fun findByAuthot(author: Author): Flux<Book>
 }
 
 class CreateBookUseCase(private val bookService: BookService) {
@@ -15,7 +19,7 @@ class CreateBookUseCase(private val bookService: BookService) {
         private val logger = KotlinLogging.logger {}
     }
 
-    fun execute(book: Book): Book {
+    fun execute(book: Book): Mono<Book> {
 
         logger.debug("Creating book: $book")
 
@@ -31,7 +35,7 @@ class ReadBookUseCase(private val bookService: BookService) {
         private val logger = KotlinLogging.logger {}
     }
 
-    fun execute(id: String): Book? {
+    fun execute(id: String): Mono<Book>? {
 
         logger.debug("Fetching book with id: $id")
 
@@ -47,11 +51,11 @@ class UpdateBookUseCase(private val bookService: BookService) {
         private val logger = KotlinLogging.logger {}
     }
 
-    fun execute(book: Book): Book {
+    fun execute(book: Book): Mono<Book> {
 
         logger.debug("Updating book $book")
 
-        return bookService.update(book).also { logger.debug("Book ${it.id} updated") }
+        return bookService.update(book).also { it -> logger.debug("Book ${it.map { it.id }} updated") }
 
     }
 
