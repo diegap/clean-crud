@@ -1,7 +1,7 @@
-package io.clean.crud
+package io.clean.crud.dataprovider
 
 
-import io.clean.crud.domain.BookCategory
+import io.clean.crud.dataprovider.domain.BookCategory
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document

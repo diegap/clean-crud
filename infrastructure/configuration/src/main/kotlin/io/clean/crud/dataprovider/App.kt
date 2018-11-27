@@ -1,4 +1,4 @@
-package io.clean.crud
+package io.clean.crud.dataprovider
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,4 +1,4 @@
-package io.clean.crud.domain
+package io.clean.crud.dataprovider.domain
 
 import mu.KotlinLogging
 import reactor.core.publisher.Flux
@@ -10,7 +10,7 @@ interface BookService {
     fun delete(id: String)
     fun findById(id: String): Mono<Book>?
     fun findByTitle(title: String): Flux<Book>
-    fun findByAuthot(author: Author): Flux<Book>
+    fun findByAuthor(author: Author): Flux<Book>
 }
 
 class CreateBookUseCase(private val bookService: BookService) {

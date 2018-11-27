@@ -1,4 +1,4 @@
-package io.clean.crud.domain
+package io.clean.crud.dataprovider.domain
 
 data class Book(val id: String? = null,
                 val title: String,
