@@ -43,21 +43,20 @@ compileTestKotlin {
 
 test {
 
-    // make gradle print the test result for each test in the build (we like to see the acceptance tests running)
     testLogging {
         events "passed", "skipped", "failed"
     }
 
     doFirst {
         println "==========================================================================================="
-        println "   tests starting"
+        println "   domain tests starting"
         println "==========================================================================================="
     }
 
 
     doLast {
         println "==========================================================================================="
-        println "   tests finishing"
+        println "   domain tests finishing"
         println "==========================================================================================="
     }
 }

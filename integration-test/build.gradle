@@ -1,0 +1,113 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.2.70'
+        springBootVersion = '2.1.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.5.RELEASE"
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
+}
+
+
+dependencies {
+    compile project(':infrastructure:configuration')
+    compile "com.github.tomakehurst:wiremock:2.6.0"
+    compile "org.awaitility:awaitility:3.0.0"
+    compile "org.eclipse.jetty:jetty-server"
+    compile "org.eclipse.jetty:jetty-servlet"
+    compile "org.eclipse.jetty:jetty-servlets"
+}
+
+// -- integration test task -- //
+sourceSets {
+    integrationTest {
+        kotlin {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/test/kotlin')
+        }
+        resources.srcDir file('src/test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+}
+
+check.dependsOn integrationTest
+// -- integration test task -- //
+
+compileIntegrationTestKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+integrationTest {
+
+    useTestNG()
+    include '**/*IT.*'
+
+    // make gradle print the test result for each test in the build (we like to see the acceptance tests running)
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    doFirst {
+        println "==========================================================================================="
+        println "   integration-test starting"
+        println "==========================================================================================="
+    }
+
+
+    doLast {
+        println "==========================================================================================="
+        println "   integration-test finishing"
+        println "==========================================================================================="
+    }
+}
+
+integrationTest.mustRunAfter(":infrastructure:dataprovider:test")

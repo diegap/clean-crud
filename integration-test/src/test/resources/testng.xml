@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="clean-crud test Suite" thread-count="1" verbose="1" parallel="methods" data-provider-thread-count="1">
+
+    <test name="clean-crud integration tests">
+        <packages>
+            <package name="io.clean.crud"/>
+        </packages>
+    </test>
+
+</suite>

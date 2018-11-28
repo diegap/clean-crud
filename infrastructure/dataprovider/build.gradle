@@ -44,9 +44,37 @@ compileTestKotlin {
     }
 }
 
+test {
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    doFirst {
+        println "==========================================================================================="
+        println "   dataprovider tests starting"
+        println "==========================================================================================="
+    }
+
+
+    doLast {
+        println "==========================================================================================="
+        println "   dataprovider tests finishing"
+        println "==========================================================================================="
+    }
+}
+
+test.mustRunAfter(":infrastructure:entrypoint:test")
+
 dependencies {
     compile project(':domain')
     compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${springBootVersion}"
-    runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
-    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo"
+
+    testCompile "io.mockk:mockk:1.7.7"
+    testCompile "junit:junit:4.+"
+    testCompile "org.assertj:assertj-core:3.6.1"
+
+    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+    runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+
 }

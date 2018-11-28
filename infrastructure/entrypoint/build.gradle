@@ -45,9 +45,30 @@ compileTestKotlin {
     }
 }
 
+test {
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    doFirst {
+        println "==========================================================================================="
+        println "   entrypoint tests starting"
+        println "==========================================================================================="
+    }
+
+
+    doLast {
+        println "==========================================================================================="
+        println "   entrypoint tests finishing"
+        println "==========================================================================================="
+    }
+}
+
+test.mustRunAfter(":domain:test")
+
 dependencies {
     compile project(':domain')
-
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
 }
