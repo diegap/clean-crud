@@ -1,8 +1,8 @@
 package io.clean.crud.dataprovider
 
-import io.clean.crud.dataprovider.domain.Author
-import io.clean.crud.dataprovider.domain.Book
-import io.clean.crud.dataprovider.domain.BookService
+import io.clean.crud.domain.Author
+import io.clean.crud.domain.Book
+import io.clean.crud.domain.BookService
 import mu.KotlinLogging
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import reactor.core.publisher.Flux
@@ -40,7 +40,6 @@ class BookServiceDataProvider(private val bookRepository: BookRepository) : Book
                     }.map {
                         bookRepository.save(it)
                         it
-
                     }.map {
                         BookMapper.from(it)
                     }.toMono()

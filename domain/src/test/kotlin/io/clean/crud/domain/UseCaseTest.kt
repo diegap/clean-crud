@@ -1,4 +1,4 @@
-package io.clean.crud.dataprovider.domain
+package io.clean.crud.domain
 
 import io.mockk.MockKAnnotations
 import io.mockk.every

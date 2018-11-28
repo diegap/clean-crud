@@ -1,7 +1,7 @@
 package io.clean.crud.dataprovider
 
-import io.clean.crud.dataprovider.domain.Author
-import io.clean.crud.dataprovider.domain.Book
+import io.clean.crud.domain.Author
+import io.clean.crud.domain.Book
 
 object BookMapper {
 

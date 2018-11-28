@@ -5,7 +5,6 @@ spring:
     name: clean-crud
 
 
-
   output:
     ansi:
       enabled: always
