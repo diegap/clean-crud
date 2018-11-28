@@ -132,7 +132,7 @@ class `Use cases related to Book entity` {
         // given
         val bookIdToDelete = "1"
 
-        every { bookService.delete(bookIdToDelete) } answers {}
+        every { bookService.delete(bookIdToDelete) } answers { Mono.empty() }
 
         val useCase = DeleteBookUseCase(bookService)
 
