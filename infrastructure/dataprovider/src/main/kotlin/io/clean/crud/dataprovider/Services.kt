@@ -5,11 +5,13 @@ import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookService
 import mu.KotlinLogging
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toFlux
 import reactor.core.publisher.toMono
 
+@Repository
 interface BookRepository : ReactiveMongoRepository<BookDocument, String> {
 
     fun findByTitle(title: String): Flux<BookDocument>
@@ -44,12 +46,14 @@ class BookServiceDataProvider(private val bookRepository: BookRepository) : Book
                         BookMapper.from(it)
                     }.toMono()
 
-    override fun delete(id: String): Mono<Void> = bookRepository
-            .deleteById(id)
-            .doOnSuccess { logger.debug("Successfully deleted book with id: $id") }
-            .doOnError { logger.error("Cannot delete book with id: $id", it) }
+    override fun delete(id: String): Mono<Void> =
+            bookRepository
+                    .deleteById(id)
+                    .doOnSuccess { logger.debug("Successfully deleted book with id: $id") }
+                    .doOnError { logger.error("Cannot delete book with id: $id", it) }
 
-    override fun findById(id: String) = bookRepository.findById(id).map { BookMapper.from(it) }
+    override fun findById(id: String) =
+            bookRepository.findById(id).map { BookMapper.from(it) }
 
     override fun findByTitle(title: String) =
             bookRepository.findByTitle(title).map { BookMapper.from(it) }.toFlux()

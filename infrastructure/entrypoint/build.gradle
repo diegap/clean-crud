@@ -70,5 +70,13 @@ test.mustRunAfter(":domain:test")
 dependencies {
     compile project(':domain')
     compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
+
+    compile "com.fasterxml.jackson.core:jackson-core:2.9.7"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.7"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.9.7"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.7"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.7"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
+
 }
