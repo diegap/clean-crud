@@ -70,10 +70,6 @@ dependencies {
     compile project(':domain')
     compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${springBootVersion}"
 
-    testCompile "io.mockk:mockk:1.7.7"
-    testCompile "junit:junit:4.+"
-    testCompile "org.assertj:assertj-core:3.6.1"
-
     testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
     runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
 
