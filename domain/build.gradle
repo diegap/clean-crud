@@ -2,7 +2,7 @@ buildscript {
 
     ext {
         kotlinVersion = '1.3.10'
-        springBootVersion = '2.1.0.RELEASE'
+        springBootVersion = '2.1.1.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -65,7 +65,8 @@ test {
 dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     compile 'org.slf4j:slf4j-api:1.7.2'
     compile 'org.slf4j:slf4j-simple:1.7.2'
@@ -73,7 +74,7 @@ dependencies {
 
     compile 'io.projectreactor:reactor-core:3.2.3.RELEASE'
 
-    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     testCompile "io.mockk:mockk:1.7.7"
 }
 

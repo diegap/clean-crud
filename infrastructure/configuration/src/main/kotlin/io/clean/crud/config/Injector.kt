@@ -6,22 +6,18 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import io.clean.crud.dataprovider.BookRepository
 import io.clean.crud.dataprovider.BookServiceDataProvider
-import io.clean.crud.domain.CreateBookUseCase
-import io.clean.crud.domain.DeleteBookUseCase
-import io.clean.crud.domain.ReadBookUseCase
-import io.clean.crud.domain.UpdateBookUseCase
-import org.springframework.beans.factory.annotation.Autowired
+import io.clean.crud.domain.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
+
 
 @Configuration
-class Injector {
-
-    @Autowired
-    private lateinit var bookRepository: BookRepository
+@Import(MongoReactiveApplication::class)
+class Injector(val bookRepository: BookRepository) {
 
     @Bean
-    fun bookService() =
+    fun bookService(): BookService =
             BookServiceDataProvider(bookRepository)
 
     @Bean
@@ -44,4 +40,5 @@ class Injector {
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         return objectMapper
     }
+
 }

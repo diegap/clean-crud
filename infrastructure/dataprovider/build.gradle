@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.3.10'
-        springBootVersion = '2.1.0.RELEASE'
+        springBootVersion = '2.1.1.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -68,9 +68,7 @@ test.mustRunAfter(":infrastructure:entrypoint:test")
 
 dependencies {
     compile project(':domain')
-    compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:${springBootVersion}"
-
-    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:$springBootVersion"
+    compile "org.mongodb:mongodb-driver-reactivestreams:1.10.0"
     runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
-
 }

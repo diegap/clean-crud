@@ -6,3 +6,7 @@ spring:
       host: localhost
       port: 27017
       database: rxdb
+mongo:
+  socketTimeout: 30000
+  socketKeepAlive: true
+  maxConnectionIdleTime: 60000
