@@ -8,3 +8,34 @@ Example of reactive-crud following uncle Bob's [clean-architecture](https://blog
 
 #### Run
 `$ ./gradlew bootRun`
+
+#### Endpoints
+
+Retrieve all books: `GET localhost:8080/books`
+
+Retrieve book by id: `GET localhost:8080/books/{id}`
+
+Create book: `POST localhost:8080/books`
+
+    {
+        "title": "1984",
+        "category": "FICTION",
+        "author": {
+            "fullName": "George Orwell"
+        },
+        "year": 1949
+    }
+
+Update book: `PUT localhost:8080/books`
+    
+    {
+        "id":"5c0d82ddd7524043aeec084f"
+        "title": "1984",
+        "category": "FICTION",
+        "author": {
+            "fullName": "Eric Arthur Blair"
+        },
+        "year": 1949
+    }
+
+Remove book: `DELETE localhost:8080/books/{id}`
