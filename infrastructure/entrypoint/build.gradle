@@ -13,10 +13,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
-}
-
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
 apply plugin: 'java'

@@ -7,14 +7,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
     }
-}
-
-plugins {
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
 apply plugin: 'kotlin'

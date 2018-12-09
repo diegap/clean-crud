@@ -1,6 +1,5 @@
-package io.clean.crud
+package io.clean.crud.test
 
-import io.clean.crud.config.Injector
 import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
@@ -11,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.testng.annotations.Test
 
-@SpringBootTest(classes = [Injector::class])
+@SpringBootTest
 @ContextConfiguration(initializers = [BaseTest.Initializer::class])
 class BookServiceIT : BaseTest() {
 

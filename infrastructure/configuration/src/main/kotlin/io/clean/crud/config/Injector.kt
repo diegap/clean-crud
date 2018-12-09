@@ -4,21 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import io.clean.crud.dataprovider.BookDocument
 import io.clean.crud.dataprovider.BookRepository
 import io.clean.crud.dataprovider.BookServiceDataProvider
 import io.clean.crud.domain.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 
 
 @Configuration
-@Import(MongoReactiveApplication::class)
-class Injector(val bookRepository: BookRepository) {
+class Injector(val bookRepository: ReactiveMongoRepository<BookDocument, String>) {
 
     @Bean
     fun bookService(): BookService =
-            BookServiceDataProvider(bookRepository)
+            BookServiceDataProvider(bookRepository as BookRepository)
 
     @Bean
     fun createBookUseCase() = CreateBookUseCase(bookService())

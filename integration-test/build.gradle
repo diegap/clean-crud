@@ -7,13 +7,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
     }
-}
-
-plugins {
-    id "io.spring.dependency-management" version "1.0.5.RELEASE"
 }
 
 apply plugin: 'kotlin'
@@ -27,27 +24,29 @@ sourceCompatibility = 1.8
 repositories { mavenCentral() }
 
 compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
     kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
         jvmTarget = "1.8"
     }
 }
 
+compileTestKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 dependencies {
     compile project(':infrastructure:configuration')
 
     compile "com.github.tomakehurst:wiremock:2.6.0"
     compile "org.awaitility:awaitility:3.0.0"
-    compile "org.eclipse.jetty:jetty-server"
-    compile "org.eclipse.jetty:jetty-servlet"
-    compile "org.eclipse.jetty:jetty-servlets"
+
+    compile group: 'org.eclipse.jetty', name: 'jetty-io', version: '9.4.14.v20181114'
+
 
     testCompile "org.testcontainers:testcontainers:1.4.3"
     testCompile "org.testng:testng:6.14.3"
@@ -103,14 +102,14 @@ integrationTest {
 
     doFirst {
         println "==========================================================================================="
-        println "   integration-test starting"
+        println ">>> integration-test starting"
         println "==========================================================================================="
     }
 
 
     doLast {
         println "==========================================================================================="
-        println "   integration-test finishing"
+        println ">>> integration-test finishing"
         println "==========================================================================================="
     }
 }

@@ -23,7 +23,7 @@ class BookController(private val bookService: BookService) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody book: Book) =
-            bookService.create(book).also {
+            bookService.create(book).subscribe {
                 logger.debug { "Created book $it" }
             }
 
@@ -31,7 +31,7 @@ class BookController(private val bookService: BookService) {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun delete(@PathVariable id: String) =
-            bookService.delete(id).also {
+            bookService.delete(id).subscribe {
                 logger.debug { "Deleted book with id: $id" }
             }
 
@@ -39,7 +39,7 @@ class BookController(private val bookService: BookService) {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     fun update(@RequestBody book: Book) =
-            bookService.update(book).also {
+            bookService.update(book).subscribe {
                 logger.debug { "Updated book: $book to >> $it" }
             }
 

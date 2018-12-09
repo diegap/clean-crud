@@ -4,13 +4,13 @@ import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookService
 import mu.KotlinLogging
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toFlux
 import reactor.core.publisher.toMono
 
-interface BookRepository : ReactiveCrudRepository<BookDocument, String> {
+interface BookRepository : ReactiveMongoRepository<BookDocument, String> {
 
     fun findByTitle(title: String): Flux<BookDocument>
 

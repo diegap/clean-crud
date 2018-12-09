@@ -1,4 +1,4 @@
-package io.clean.crud
+package io.clean.crud.test
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
