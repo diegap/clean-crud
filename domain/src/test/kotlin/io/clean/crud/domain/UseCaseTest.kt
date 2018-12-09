@@ -23,7 +23,7 @@ class `Use cases related to Book entity` {
 
         // given
         val aNewBook = Book(
-                author = Author(id = "1", fullName = "Arthur C. Clarke"),
+                author = Author(fullName = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = "The Sentinel",
                 year = 1948)
@@ -53,7 +53,7 @@ class `Use cases related to Book entity` {
         // given
         val existingBook = Book(
                 id = "1",
-                author = Author(id = "1", fullName = "Arthur C. Clarke"),
+                author = Author(fullName = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = "The Sentinel",
                 year = 1948)
@@ -101,7 +101,7 @@ class `Use cases related to Book entity` {
         // given
         val bookToUpdate = Book(
                 id = "1",
-                author = Author(id = "1", fullName = "Arthur C. Clarke"),
+                author = Author(fullName = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = "The Sentinell",
                 year = 1947)
@@ -114,14 +114,14 @@ class `Use cases related to Book entity` {
         val result = useCase.execute(bookToUpdate).block()!!
 
         // then
-        assertThat(result).isNotNull()
+        assertThat(result).isNotNull
         assertThat(result.id).isNotBlank()
         assertThat(result.id).isEqualTo("1")
         assertThat(result.category).isEqualTo(BookCategory.FICTION)
         assertThat(result.title).isEqualTo("The Sentinell")
         assertThat(result.year).isEqualTo(1947)
 
-        assertThat(result.author).isNotNull()
+        assertThat(result.author).isNotNull
         assertThat(result.author.fullName).isEqualTo("Arthur C. Clarke")
 
     }
@@ -132,15 +132,16 @@ class `Use cases related to Book entity` {
         // given
         val bookIdToDelete = "1"
 
-        every { bookService.delete(bookIdToDelete) } answers { Mono.empty() }
+        val emptyResponse: Mono<Void> = Mono.empty()
+        every { bookService.delete(bookIdToDelete) } answers { emptyResponse }
 
         val useCase = DeleteBookUseCase(bookService)
 
         // when
-        val result = useCase.execute(bookIdToDelete)
+        val result = useCase.execute(bookIdToDelete).block()
 
         // then
-        assertThat(result).isEqualTo("OK")
+        assertThat(result).isNull()
 
     }
 

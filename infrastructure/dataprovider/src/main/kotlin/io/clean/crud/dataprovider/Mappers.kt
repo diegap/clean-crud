@@ -10,7 +10,8 @@ object BookMapper {
                 id = book.id,
                 title = book.title,
                 category = book.category,
-                author = AuthorMapper.from(book.author))
+                author = AuthorMapper.from(book.author),
+                year = book.year)
     }
 
     fun from(bookDocument: BookDocument): Book {
@@ -18,7 +19,8 @@ object BookMapper {
                 id = bookDocument.id,
                 title = bookDocument.title,
                 category = bookDocument.category,
-                author = AuthorMapper.from(bookDocument.author)
+                author = AuthorMapper.from(bookDocument.author),
+                year = bookDocument.year
         )
     }
 
@@ -27,9 +29,9 @@ object BookMapper {
 object AuthorMapper {
 
     fun from(author: Author) =
-            AuthorDocument(id = author.id, fullName = author.fullName)
+            AuthorDocument(fullName = author.fullName)
 
     fun from(authorDocument: AuthorDocument) =
-            Author(id = authorDocument.id, fullName = authorDocument.fullName)
+            Author(fullName = authorDocument.fullName)
 
 }

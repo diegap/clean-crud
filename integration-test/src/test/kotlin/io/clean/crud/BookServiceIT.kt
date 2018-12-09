@@ -5,12 +5,15 @@ import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
 import io.clean.crud.domain.BookService
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringRunner
 import org.testng.annotations.Test
 
-@SpringBootTest
+@RunWith(SpringRunner::class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [BaseTest.Initializer::class])
 class BookServiceIT : BaseTest() {
 
@@ -22,7 +25,7 @@ class BookServiceIT : BaseTest() {
 
         // given
         val aNewBook = Book(
-                author = Author(id = "1", fullName = "Arthur C. Clarke"),
+                author = Author(fullName = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = "The Sentinel",
                 year = 1948)

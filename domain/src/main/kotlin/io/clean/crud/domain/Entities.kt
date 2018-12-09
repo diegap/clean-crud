@@ -6,7 +6,7 @@ data class Book(val id: String? = null,
                 val author: Author,
                 val year: Int? = null)
 
-data class Author(val id: String?, val fullName: String)
+data class Author(val fullName: String)
 
 enum class BookCategory {
     FICTION,

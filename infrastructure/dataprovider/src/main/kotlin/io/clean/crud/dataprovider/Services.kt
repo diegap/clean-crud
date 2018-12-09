@@ -44,6 +44,9 @@ class BookServiceDataProvider(private val bookRepository: BookRepository) : Book
                         BookMapper.from(it)
                     }.toMono()
 
+    override fun findAll(): Flux<Book> =
+            bookRepository.findAll().map { BookMapper.from(it) }.toFlux()
+
     override fun delete(id: String): Mono<Void> =
             bookRepository
                     .deleteById(id)
@@ -51,7 +54,7 @@ class BookServiceDataProvider(private val bookRepository: BookRepository) : Book
                     .doOnError { logger.error("Cannot delete book with id: $id", it) }
 
     override fun findById(id: String) =
-            bookRepository.findById(id).map { BookMapper.from(it) }
+            bookRepository.findById(id).map { BookMapper.from(it) }.toMono()
 
     override fun findByTitle(title: String) =
             bookRepository.findByTitle(title).map { BookMapper.from(it) }.toFlux()
