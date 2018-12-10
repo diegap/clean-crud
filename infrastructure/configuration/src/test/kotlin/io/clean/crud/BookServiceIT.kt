@@ -6,10 +6,13 @@ import io.clean.crud.domain.BookCategory
 import io.clean.crud.domain.BookService
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.testng.annotations.Test
 
+@EnableAutoConfiguration(exclude = [EmbeddedMongoAutoConfiguration::class])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [BaseTest.Initializer::class])
 class BookServiceIT : BaseTest() {
