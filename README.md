@@ -6,9 +6,15 @@ Example of reactive-crud following uncle Bob's [clean-architecture](https://blog
 #### Build
 `$ ./gradlew clean build`
 
+---
+
 #### Run
 `$ ./gradlew bootRun`
 
+It will start a [flapdoodle](https://github.com/flapdoodle-oss/de.flapdoodle.embed.mongo) embedded mongo database locally, listening on a random port
+
+
+---
 #### Endpoints
 
 Retrieve all books: `GET localhost:8080/books`
