@@ -4,5 +4,3 @@ include 'domain'
 include 'infrastructure:configuration'
 include 'infrastructure:entrypoint'
 include 'infrastructure:dataprovider'
-
-include 'integration-test'

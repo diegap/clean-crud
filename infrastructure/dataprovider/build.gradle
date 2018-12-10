@@ -68,5 +68,5 @@ dependencies {
     compile project(':domain')
     compile "org.springframework.boot:spring-boot-starter-data-mongodb-reactive:$springBootVersion"
     //compile "org.mongodb:mongodb-driver-reactivestreams:1.10.0"
-    runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
+    //runtime "de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.1.1"
 }

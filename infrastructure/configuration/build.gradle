@@ -52,4 +52,71 @@ configurations {
 dependencies {
     compile project(':infrastructure:entrypoint')
     compile project(':infrastructure:dataprovider')
+
+    testCompile "org.testcontainers:testcontainers:1.4.3"
+    testCompile "org.testng:testng:6.14.3"
 }
+
+
+// -- integration test task -- //
+sourceSets {
+    integrationTest {
+        kotlin {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/test/kotlin')
+        }
+        resources.srcDir file('src/test/resources')
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+}
+
+check.dependsOn integrationTest
+// -- integration test task -- //
+
+compileIntegrationTestKotlin {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+integrationTest {
+
+    useTestNG()
+    include '**/*IT.*'
+
+    // make gradle print the test result for each test in the build (we like to see the acceptance tests running)
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+
+    doFirst {
+        println "==========================================================================================="
+        println ">>> integration-test starting"
+        println "==========================================================================================="
+    }
+
+
+    doLast {
+        println "==========================================================================================="
+        println ">>> integration-test finishing"
+        println "==========================================================================================="
+    }
+}
+
+integrationTest.mustRunAfter(":infrastructure:dataprovider:test")
