@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import reactor.core.publisher.Mono
 
-class `Use cases related to Book entity` {
+class UseCasesTest {
 
     @MockK
     private lateinit var bookService: BookService
