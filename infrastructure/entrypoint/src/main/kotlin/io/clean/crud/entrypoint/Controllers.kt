@@ -20,7 +20,7 @@ class BookController(private val createBookUseCase: CreateBookUseCase,
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getById() =
+    fun getAll() =
             readBookUseCase.execute()
 
     @PostMapping
