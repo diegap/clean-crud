@@ -35,11 +35,7 @@ class ControllerIT : BaseTest() {
 
     @Test
     fun `Create a new book`() {
-        val aNewBook = Book(
-                author = Author(fullName = "Arthur C. Clarke"),
-                category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+            val aNewBook = buildBook()
 
         val response = webTestClient
                 .post().uri("/books")
@@ -59,11 +55,7 @@ class ControllerIT : BaseTest() {
     @Test
     fun `Get book by existing id`() {
 
-        val aNewBook = Book(
-                author = Author(fullName = "Arthur C. Clarke"),
-                category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+        val aNewBook = buildBook()
 
         val response = webTestClient
                 .post().uri("/books")
@@ -84,6 +76,14 @@ class ControllerIT : BaseTest() {
                 .jsonPath("$.id").isNotEmpty
                 .jsonPath("$.title").isNotEmpty
                 .jsonPath("$.title").isEqualTo("The Sentinel")
+    }
+
+    private fun buildBook(): Book {
+        return Book(
+                author = Author(fullName = "Arthur C. Clarke"),
+                category = BookCategory.FICTION,
+                title = "The Sentinel",
+                year = 1948)
     }
 
 }

@@ -34,11 +34,7 @@ class BookServiceIT : BaseTest() {
     fun `Create a new Book`() {
 
         // given
-        val aNewBook = Book(
-                author = Author(fullName = "Arthur C. Clarke"),
-                category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+        val aNewBook = buildBook()
 
         // when
         val createdBook = bookService.create(aNewBook).block()
@@ -55,11 +51,7 @@ class BookServiceIT : BaseTest() {
     fun `Update existing Book`() {
 
         // given
-        val aNewBook = Book(
-                author = Author(fullName = "Arthur C. Clarke"),
-                category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+        val aNewBook = buildBook()
 
         val createdBook = bookService.create(aNewBook).block()!!
 
@@ -77,11 +69,7 @@ class BookServiceIT : BaseTest() {
     fun `Delete existing Book`() {
 
         // given
-        val aNewBook = Book(
-                author = Author(fullName = "Arthur C. Clarke"),
-                category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+        val aNewBook = buildBook()
 
         val createdBook = bookService.create(aNewBook).block()!!
 
@@ -94,6 +82,29 @@ class BookServiceIT : BaseTest() {
         // then
         assertThat(bookRepository.count().block()!!.toInt()).isEqualTo(0)
 
+    }
+
+    @Test
+    fun `Get books by author`() {
+
+        // given
+        val aNewBook = buildBook()
+
+        // when
+        bookService.create(aNewBook).block()
+
+        // then
+        val result = bookService.findByAuthor(Author(fullName = "Arthur C. Clarke"))
+        assertThat(result.collectList().block()!!.size).isEqualTo(1)
+
+    }
+
+    private fun buildBook(): Book {
+        return Book(
+                author = Author(fullName = "Arthur C. Clarke"),
+                category = BookCategory.FICTION,
+                title = "The Sentinel",
+                year = 1948)
     }
 
 }

@@ -19,6 +19,7 @@ data class BookDocument(
 data class AuthorDocument(
         @Id
         val id: String? = null,
+        @Indexed
         val fullName: String
 )
 
