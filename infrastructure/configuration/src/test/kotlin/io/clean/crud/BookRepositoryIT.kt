@@ -1,11 +1,14 @@
 package io.clean.crud.test
 
-import io.clean.crud.dataprovider.BookRepository
+import io.clean.crud.dataprovider.BookMongoQueryRepository
 import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
-import io.clean.crud.domain.BookService
+import io.clean.crud.domain.BookRepository
+import io.clean.crud.domain.PublicationDate
+import io.clean.crud.domain.Title
 import org.assertj.core.api.Assertions.assertThat
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration
@@ -17,17 +20,17 @@ import org.testng.annotations.Test
 @EnableAutoConfiguration(exclude = [EmbeddedMongoAutoConfiguration::class])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [BaseTest.Initializer::class])
-class BookServiceIT : BaseTest() {
-
-    @Autowired
-    private lateinit var bookService: BookService
+class BookRepositoryIT : BaseTest() {
 
     @Autowired
     private lateinit var bookRepository: BookRepository
 
+    @Autowired
+    private lateinit var bookMongoQueryRepository: BookMongoQueryRepository
+
     @BeforeMethod
     fun init() {
-        bookRepository.deleteAll().block()
+        bookMongoQueryRepository.deleteAll().block()
     }
 
     @Test
@@ -37,13 +40,13 @@ class BookServiceIT : BaseTest() {
         val aNewBook = buildBook()
 
         // when
-        val createdBook = bookService.create(aNewBook).block()
+        val createdBook = bookRepository.create(aNewBook).block()
 
         // then
         assertThat(createdBook).isNotNull
         assertThat(createdBook!!.id).isNotNull()
         assertThat(createdBook.author).isNotNull
-        assertThat(createdBook.author.fullName).isEqualTo("Arthur C. Clarke")
+        assertThat(createdBook.author.value).isEqualTo("Arthur C. Clarke")
 
     }
 
@@ -53,15 +56,15 @@ class BookServiceIT : BaseTest() {
         // given
         val aNewBook = buildBook()
 
-        val createdBook = bookService.create(aNewBook).block()!!
+        val createdBook = bookRepository.create(aNewBook).block()!!
 
         assertThat(createdBook.id!!).isNotNull()
 
         // when
-        val update = bookService.update(createdBook.copy(year = 1984)).block()!!
+        val update = bookRepository.update(createdBook.copy(publicationDate = PublicationDate(DateTime.parse("1984-06-30")))).block()!!
 
         // then
-        assertThat(update.year).isEqualTo(1984)
+        assertThat(update.publicationDate).isEqualTo(1984)
 
     }
 
@@ -71,16 +74,16 @@ class BookServiceIT : BaseTest() {
         // given
         val aNewBook = buildBook()
 
-        val createdBook = bookService.create(aNewBook).block()!!
+        val createdBook = bookRepository.create(aNewBook).block()!!
 
-        assertThat(createdBook.id!!).isNotNull()
-        assertThat(bookRepository.count().block()!!.toInt()).isEqualTo(1)
+        assertThat(createdBook.id!!).isNotNull
+        assertThat(bookMongoQueryRepository.count().block()!!.toInt()).isEqualTo(1)
 
         // when
-        bookService.delete(createdBook.id!!).block()
+        bookRepository.delete(createdBook.id!!.value).block()
 
         // then
-        assertThat(bookRepository.count().block()!!.toInt()).isEqualTo(0)
+        assertThat(bookMongoQueryRepository.count().block()!!.toInt()).isEqualTo(0)
 
     }
 
@@ -91,20 +94,20 @@ class BookServiceIT : BaseTest() {
         val aNewBook = buildBook()
 
         // when
-        bookService.create(aNewBook).block()
+        bookRepository.create(aNewBook).block()
 
         // then
-        val result = bookService.findByAuthor(Author(fullName = "Arthur C. Clarke"))
+        val result = bookRepository.findByAuthor(Author(value = "Arthur C. Clarke"))
         assertThat(result.collectList().block()!!.size).isEqualTo(1)
 
     }
 
     private fun buildBook(): Book {
         return Book(
-                author = Author(fullName = "Arthur C. Clarke"),
+                author = Author(value = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+                title = Title("The Sentinel"),
+                publicationDate = PublicationDate(DateTime.parse("1948-06-30")))
     }
 
 }

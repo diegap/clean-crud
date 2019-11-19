@@ -3,8 +3,11 @@ package io.clean.crud
 import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
+import io.clean.crud.domain.PublicationDate
+import io.clean.crud.domain.Title
 import io.clean.crud.test.BaseTest
 import org.assertj.core.api.Assertions.assertThat
+import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration
@@ -49,7 +52,7 @@ class ControllerIT : BaseTest() {
 
         assertThat(body!!).isNotNull
         assertThat(body.title).isEqualTo("The Sentinel")
-        assertThat(body.author.fullName).isEqualTo("Arthur C. Clarke")
+        assertThat(body.author.value).isEqualTo("Arthur C. Clarke")
     }
 
     @Test
@@ -80,10 +83,10 @@ class ControllerIT : BaseTest() {
 
     private fun buildBook(): Book {
         return Book(
-                author = Author(fullName = "Arthur C. Clarke"),
+                author = Author(value = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
-                title = "The Sentinel",
-                year = 1948)
+                title = Title("The Sentinel"),
+                publicationDate = PublicationDate(DateTime.parse("1948-06-30")))
     }
 
 }

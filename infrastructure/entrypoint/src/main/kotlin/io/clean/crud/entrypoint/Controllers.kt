@@ -7,36 +7,36 @@ import reactor.core.publisher.toMono
 
 @RestController
 @RequestMapping("/books")
-class BookController(private val createBookUseCase: CreateBookUseCase,
-                     private val readBookUseCase: ReadBookUseCase,
-                     private val updateBookUseCase: UpdateBookUseCase,
-                     private val deleteBookUseCase: DeleteBookUseCase) {
+class BookController(private val createBook: CreateBook,
+                     private val readBook: ReadBook,
+                     private val updateBook: UpdateBook,
+                     private val deleteBook: DeleteBook) {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun getById(@PathVariable id: String) =
-            readBookUseCase.execute(id)
+            readBook.execute(id)
 
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     fun getAll() =
-            readBookUseCase.execute()
+            readBook.execute()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody book: Book) =
-            createBookUseCase.execute(book).toMono()
+            createBook.execute(book).toMono()
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun delete(@PathVariable id: String) =
-            deleteBookUseCase.execute(id)
+            deleteBook.execute(id)
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     fun update(@RequestBody book: Book) =
-            updateBookUseCase.execute(book).toMono()
+            updateBook.execute(book).toMono()
 
 }

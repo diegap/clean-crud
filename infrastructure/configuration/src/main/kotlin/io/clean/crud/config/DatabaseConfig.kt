@@ -4,12 +4,8 @@ import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguratio
 
 class MongoDbReactiveConfig : AbstractReactiveMongoConfiguration() {
 
-    override fun reactiveMongoClient(): MongoClient {
-        return MongoClients.create()
-    }
+	override fun reactiveMongoClient(): MongoClient = MongoClients.create()
 
-    override fun getDatabaseName(): String {
-        return "rxdb"
-    }
+	override fun getDatabaseName() = "rxdb"
 
 }
