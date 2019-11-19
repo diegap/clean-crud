@@ -2,7 +2,14 @@ package io.clean.crud.domain
 
 import org.joda.time.DateTime
 
-data class Book(val id: BookId? = null,
+data class DraftBook(
+		val title: Title,
+		val category: BookCategory,
+		val author: Author,
+		val publicationDate: PublicationDate
+)
+
+data class Book(val id: BookId,
 				val title: Title,
 				val category: BookCategory,
 				val author: Author,
@@ -13,6 +20,15 @@ data class BookId(val value: String) {
 	init {
 		check(value.isNotBlank()) { "Book id cannot be blank" }
 	}
+}
+
+class BookFactory(private val bookdIdRepository: BookdIdRepository) {
+	fun from(draftBook: DraftBook) = Book(
+			id = bookdIdRepository.nextId(),
+			title = draftBook.title,
+			category = draftBook.category,
+			author = draftBook.author,
+			publicationDate = draftBook.publicationDate)
 }
 
 data class Title(val value: String) {
@@ -29,7 +45,7 @@ data class PublicationDate(val value: DateTime) {
 
 data class Author(val value: String) {
 	init {
-		check(value.isNotBlank())
+		check(value.isNotBlank()) { "Author name cannot be blank" }
 	}
 }
 

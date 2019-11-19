@@ -4,6 +4,7 @@ import io.clean.crud.dataprovider.BookMongoQueryRepository
 import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
+import io.clean.crud.domain.BookId
 import io.clean.crud.domain.BookRepository
 import io.clean.crud.domain.PublicationDate
 import io.clean.crud.domain.Title
@@ -76,11 +77,11 @@ class BookRepositoryIT : BaseTest() {
 
         val createdBook = bookRepository.create(aNewBook).block()!!
 
-        assertThat(createdBook.id!!).isNotNull
+        assertThat(createdBook.id).isNotNull
         assertThat(bookMongoQueryRepository.count().block()!!.toInt()).isEqualTo(1)
 
         // when
-        bookRepository.delete(createdBook.id!!.value).block()
+        bookRepository.delete(createdBook.id).block()
 
         // then
         assertThat(bookMongoQueryRepository.count().block()!!.toInt()).isEqualTo(0)
@@ -104,6 +105,7 @@ class BookRepositoryIT : BaseTest() {
 
     private fun buildBook(): Book {
         return Book(
+                id = BookId("1"),
                 author = Author(value = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = Title("The Sentinel"),

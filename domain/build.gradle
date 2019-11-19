@@ -69,8 +69,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     compile 'io.projectreactor:reactor-core:3.2.3.RELEASE'
+
     compile group: 'joda-time', name: 'joda-time', version: '2.10.2'
     compile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-    testCompile "io.mockk:mockk:1.7.7"
 }
 

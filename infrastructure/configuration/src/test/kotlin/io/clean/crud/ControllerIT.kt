@@ -3,6 +3,7 @@ package io.clean.crud
 import io.clean.crud.domain.Author
 import io.clean.crud.domain.Book
 import io.clean.crud.domain.BookCategory
+import io.clean.crud.domain.BookId
 import io.clean.crud.domain.PublicationDate
 import io.clean.crud.domain.Title
 import io.clean.crud.test.BaseTest
@@ -83,6 +84,7 @@ class ControllerIT : BaseTest() {
 
     private fun buildBook(): Book {
         return Book(
+                id = BookId("1"),
                 author = Author(value = "Arthur C. Clarke"),
                 category = BookCategory.FICTION,
                 title = Title("The Sentinel"),
