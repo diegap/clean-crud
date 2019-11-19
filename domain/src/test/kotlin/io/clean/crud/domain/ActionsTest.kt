@@ -34,7 +34,7 @@ class ActionsTest {
         val useCase = CreateBook(bookRepository)
 
         // when
-        val result = useCase.execute(aNewBook).block()!!
+        val result = useCase(aNewBook).block()!!
 
         // then
         assertThat(result).isNotNull
@@ -63,7 +63,7 @@ class ActionsTest {
         val useCase = ReadBook(bookRepository)
 
         // when
-        val result = useCase.execute("1")?.block()
+        val result = useCase("1")?.block()
 
         // then
         assertThat(result).isNotNull
@@ -87,7 +87,7 @@ class ActionsTest {
         val useCase = ReadBook(bookRepository)
 
         // when
-        val result = useCase.execute("2")
+        val result = useCase("2")
 
         // then
         assertThat(result).isNull()
@@ -110,7 +110,7 @@ class ActionsTest {
         val useCase = UpdateBook(bookRepository)
 
         // when
-        val result = useCase.execute(bookToUpdate).block()!!
+        val result = useCase(bookToUpdate).block()!!
 
         // then
         assertThat(result).isNotNull
@@ -136,7 +136,7 @@ class ActionsTest {
         val useCase = DeleteBook(bookRepository)
 
         // when
-        val result = useCase.execute(bookIdToDelete).block()
+        val result = useCase(bookIdToDelete).block()
 
         // then
         assertThat(result).isNull()

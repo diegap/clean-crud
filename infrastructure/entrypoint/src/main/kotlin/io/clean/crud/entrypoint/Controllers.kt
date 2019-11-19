@@ -15,28 +15,28 @@ class BookController(private val createBook: CreateBook,
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun getById(@PathVariable id: String) =
-            readBook.execute(id)
+            readBook(id)
 
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     fun getAll() =
-            readBook.execute()
+            readBook()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody book: Book) =
-            createBook.execute(book).toMono()
+            createBook(book).toMono()
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun delete(@PathVariable id: String) =
-            deleteBook.execute(id)
+            deleteBook(id)
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     fun update(@RequestBody book: Book) =
-            updateBook.execute(book).toMono()
+            updateBook(book).toMono()
 
 }
