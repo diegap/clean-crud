@@ -6,118 +6,135 @@ import org.junit.Test
 
 class ActionsTest {
 
+	private lateinit var bookRepository: BookRepository
+
+	private lateinit var createBookAction: CreateBook
+	private lateinit var readBookAction: ReadBook
+	private lateinit var updateBookAction: UpdateBook
+	private lateinit var deleteBookAction: DeleteBook
+
+	private var retrievedBook: Book? = null
+
+	private val aNewBook = Book(
+			id = BookId("1"),
+			author = Author(value = "Arthur C. Clarke"),
+			category = BookCategory.FICTION,
+			title = Title("The Sentinel"),
+			publicationDate = PublicationDate(DateTime.parse("1948-06-30")))
+
 	@Test
 	fun `Create a new book`() {
 
-		// given
-		val aNewBook = Book(
-                id = BookId("1"),
-				author = Author(value = "Arthur C. Clarke"),
-				category = BookCategory.FICTION,
-				title = Title("The Sentinel"),
-				publicationDate = PublicationDate(DateTime.parse("1948-06-30")))
+		givenACreateBookAction()
 
-		val useCase = CreateBook(InMemoryBookRepository())
+		whenCreateActionIsCalledWith(aNewBook)
 
-		// when
-		val result = useCase(aNewBook).block()!!
-
-		// then
-		assertThat(result).isNotNull
-		assertThat(result.id.value).isEqualTo("1")
-		assertThat(result.category).isEqualTo(BookCategory.FICTION)
-		assertThat(result.title.value).isEqualTo("The Sentinel")
-
-		assertThat(result.author).isNotNull
-		assertThat(result.author.value).isEqualTo("Arthur C. Clarke")
+		thenBooksIsCreated()
 
 	}
 
 	@Test
 	fun `Read existing book passing id`() {
 
-		// given
-		val existingBook = Book(
-				id = BookId("1"),
-				author = Author(value = "Arthur C. Clarke"),
-				category = BookCategory.FICTION,
-				title = Title("The Sentinel"),
-				publicationDate = PublicationDate(DateTime.parse("1948-06-30")))
+		givenAReadBookAction()
 
-        val bookRepository = InMemoryBookRepository(mutableMapOf(existingBook.id!! to existingBook))
-		val useCase = ReadBook(bookRepository)
+		whenReadBookIsCalledWith(BookId("1"))
 
-		// when
-		val result = useCase(BookId("1"))?.block()
-
-		// then
-		assertThat(result).isNotNull
-		assertThat(result!!.id.value).isEqualTo("1")
-		assertThat(result.category).isEqualTo(BookCategory.FICTION)
-		assertThat(result.title.value).isEqualTo("The Sentinel")
-
-		assertThat(result.author).isNotNull
-		assertThat(result.author.value).isEqualTo("Arthur C. Clarke")
+		thenBookIsRetrieved()
 
 	}
 
 	@Test
 	fun `Read unexisting book passing id`() {
 
-		// given
+		givenAReadBookAction()
 
-		val useCase = ReadBook(InMemoryBookRepository())
+		whenReadBookIsCalledWith(BookId("2"))
 
-		// when
-		val result = useCase(BookId("2"))
-
-		// then
-		assertThat(result).isNull()
+		thenNoBookIsRetrieved()
 
 	}
 
 	@Test
 	fun `Update existing book`() {
 
-		// given
-		val bookToUpdate = Book(
-				id = BookId("1"),
-				author = Author(value = "Arthur C. Clarke"),
-				category = BookCategory.FICTION,
-				title = Title("The Sentinell"),
-				publicationDate = PublicationDate(DateTime.parse("1947-06-30")))
+		givenAnUpdateBookAction()
 
-		val useCase = UpdateBook(InMemoryBookRepository())
+		whenUpdateIsCalledWith(aNewBook.copy(title = Title("The Sentinell")))
 
-		// when
-		val result = useCase(bookToUpdate).block()!!
-
-		// then
-		assertThat(result).isNotNull
-		assertThat(result.id!!.value).isEqualTo("1")
-		assertThat(result.category).isEqualTo(BookCategory.FICTION)
-		assertThat(result.title.value).isEqualTo("The Sentinell")
-		assertThat(result.publicationDate.value.year().get()).isEqualTo(1947)
-
-		assertThat(result.author).isNotNull
-		assertThat(result.author.value).isEqualTo("Arthur C. Clarke")
+		thenBookIsUpdated()
 
 	}
 
 	@Test
 	fun `Delete book passing id`() {
 
-		// given
-		val bookIdToDelete = BookId("1")
+		givenADeleteBookAction()
 
-		val useCase = DeleteBook(InMemoryBookRepository())
+		whenExistingBookIsDeleted()
 
-		// when
-		val result = useCase(bookIdToDelete).block()
+		thenBookNoLongerExists()
 
-		// then
-		assertThat(result).isNull()
+	}
 
+	private fun givenACreateBookAction() {
+		bookRepository = InMemoryBookRepository()
+		createBookAction = CreateBook(bookRepository)
+	}
+
+	private fun whenCreateActionIsCalledWith(book: Book) {
+		createBookAction(book).block()!!
+	}
+
+	private fun thenBooksIsCreated() {
+		assertThat(bookRepository.findById(aNewBook.id)).isNotNull
+	}
+
+	private fun givenAReadBookAction() {
+		bookRepository = InMemoryBookRepository(mutableMapOf(aNewBook.id to aNewBook))
+		readBookAction = ReadBook(bookRepository)
+	}
+
+	private fun whenReadBookIsCalledWith(bookId: BookId) {
+		retrievedBook = readBookAction(bookId)?.block()
+	}
+
+	private fun thenBookIsRetrieved() {
+		assertThat(retrievedBook).isNotNull
+		assertThat(retrievedBook!!.id.value).isEqualTo("1")
+	}
+
+	private fun thenNoBookIsRetrieved() {
+		assertThat(retrievedBook).isNull()
+	}
+
+	private fun givenAnUpdateBookAction() {
+		bookRepository = InMemoryBookRepository(mutableMapOf(aNewBook.id to aNewBook))
+		updateBookAction = UpdateBook(bookRepository)
+	}
+
+	private fun whenUpdateIsCalledWith(book: Book) {
+		updateBookAction(book)
+	}
+
+	private fun thenBookIsUpdated() {
+		val book = bookRepository.findById(BookId("1"))?.block()!!
+		assertThat(book).isNotNull
+		assertThat(book.title.value).isEqualTo("The Sentinell")
+	}
+
+	private fun givenADeleteBookAction() {
+		bookRepository = InMemoryBookRepository(mutableMapOf(aNewBook.id to aNewBook))
+		deleteBookAction = DeleteBook(bookRepository)
+	}
+
+	private fun whenExistingBookIsDeleted() {
+		deleteBookAction(BookId("1"))
+	}
+
+	private fun thenBookNoLongerExists() {
+		val book = bookRepository.findById(BookId("1"))
+		assertThat(book).isNull()
 	}
 
 }
